@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.business.mapper.UserInfoMapper">
+
+
+    <resultMap id="userinfoMap" type="com.example.business.entity.UserInfoPO">
+         <id column="uid" property="id" />
+        <result column="username" property="username" />
+        <!--角色信息 -->
+        <collection property="roles" javaType="list" ofType="com.example.business.entity.RolePO">
+          <id column="id" property="id"/>
+          <result column="role" property="role" />
+        </collection>
+    </resultMap>
+
+<select id="findRolesByUserName"  resultMap="userinfoMap">
+
+    SELECT
+      u.id uid, u.username,r.id,r.role
+    FROM
+      user_info u
+    LEFT JOIN
+      user_user_role ur
+    on
+      u.id = ur.userid
+    LEFT JOIN
+      user_role r
+    on
+      ur.roleid = r.id
+    WHERE
+      u.username = #{username}
+
+</select>
+
+
+
+    <resultMap id="userinfoMapOne" type="com.example.business.entity.UserInfoPO">
+        <id column="uid" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="salt" property="salt" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_update" property="gmtUpdate" />
+        <!--角色信息 -->
+        <collection property="roles" javaType="list" ofType="com.example.business.entity.RolePO">
+            <id column="id" property="id"/>
+            <result column="role" property="role" />
+            <result column="description" property="description" />
+        </collection>
+    </resultMap>
+
+    <select id="selectUserById" parameterType="Integer" resultMap="userinfoMapOne">
+       SELECT
+      u.id uid, u.username,u.password,u.salt,u.gmt_create,u.gmt_update,  r.id,r.role,r.description
+    FROM
+      user_info u
+    LEFT JOIN
+      user_user_role ur
+    on
+      u.id = ur.userid
+    LEFT JOIN
+      user_role r
+    on
+      ur.roleid = r.id
+    WHERE
+      u.id = #{id}
+    </select>
+
+
+
+
+    <select id="selectUserByUsername"  resultMap="userinfoMapOne">
+       SELECT
+      u.id uid, u.username,u.password,u.salt,u.gmt_create,u.gmt_update,  r.id,r.role,r.description
+    FROM
+      user_info u
+    LEFT JOIN
+      user_user_role ur
+    on
+      u.id = ur.userid
+    LEFT JOIN
+      user_role r
+    on
+      ur.roleid = r.id
+    WHERE
+      u.username = #{username}
+    </select>
+    
+    
+    
+    <select id="findPermissionByRoleId"  resultType="com.example.business.entity.PermissionPO">
+       SELECT
+         p.id,p.permission,r.role
+       FROM
+         user_role r
+       LEFT JOIN
+         user_role_perms rp
+       ON
+          r.id = rp.roleid
+       LEFT JOIN
+          user_permission p
+       ON
+          rp.permissionid = p.id
+       WHERE
+         r.id = #{id}
+
+
+    </select>
+    
+    
+
+</mapper>
