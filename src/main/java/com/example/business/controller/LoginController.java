@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user")
-@Api("用户登录接口模块")
+@Api("用户登录接口的模块")
 public class LoginController {
 
 
