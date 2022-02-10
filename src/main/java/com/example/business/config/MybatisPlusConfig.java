@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MybatisPlusConfig {
     /**
-     * mybatis-plus SQL执行效率插件
+     * mybatis-plus SQL执行效率插件是
      */
     @Bean
     public PerformanceInterceptor performanceInterceptor() {
