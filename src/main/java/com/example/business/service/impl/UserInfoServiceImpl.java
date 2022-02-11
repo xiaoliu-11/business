@@ -6,11 +6,13 @@ import com.example.business.entity.PermissionPO;
 import com.example.business.entity.UserInfoPO;
 import com.example.business.mapper.UserInfoMapper;
 import com.example.business.service.UserInfoService;
+import com.example.business.utils.RedisUtil;
 import com.example.business.utils.SaltUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
@@ -19,6 +21,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoPO>
 
     @Autowired
     private UserInfoMapper userInfoMapper;
+
+    @Resource
+    private RedisUtil redisUtil;
 
     //用户注册
     @Override
@@ -40,6 +45,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoPO>
     public UserInfoPO findByUserName(String username) {
         QueryWrapper<UserInfoPO> wrapper = new QueryWrapper<>();
         wrapper.eq("username", username);
+        //将用户数据存入redis
+        redisUtil.setValue(username,wrapper);
+        System.out.println("日志打印：数据成功存入redis!");
         return userInfoMapper.selectOne(wrapper);
     }
 

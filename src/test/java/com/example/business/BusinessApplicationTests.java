@@ -7,11 +7,14 @@ import com.example.business.mapper.UserInfoMapper;
 import com.example.business.mapper.UserOrderPOMapper;
 import com.example.business.service.UserInfoService;
 import com.example.business.utils.OrderUtils;
+import com.example.business.utils.RedisUtil;
 import com.example.business.vo.user.UserRoleVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +26,9 @@ class BusinessApplicationTests {
     private UserInfoMapper userInfoMapper;
     @Autowired
     private UserOrderPOMapper userOrderPOMapper;
+
+    @Resource
+    private RedisUtil redisUtil;
 
     @Autowired
     private UserInfoService userInfoService;
@@ -96,7 +102,7 @@ class BusinessApplicationTests {
     @Test
     public void deleteUserOrder() {
         int deleteById = userOrderPOMapper.deleteById(3);
-        System.out.println("deleteById"+deleteById);
+        System.out.println("deleteById" + deleteById);
     }
 
 
@@ -115,10 +121,15 @@ class BusinessApplicationTests {
     }
 
 
-
     @Test
     public void selectUserByUsernameTest() {
         UserInfoPO userinfo = userInfoMapper.selectUserByUsername("lsglsg");
         System.out.println(userinfo);
+    }
+
+
+    @Test
+    public void testRedis() {
+        redisUtil.setValue("ss1","hahahah");
     }
 }

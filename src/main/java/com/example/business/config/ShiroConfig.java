@@ -73,12 +73,12 @@ public class ShiroConfig {
 
 
         //开缓存
-        customerRealm.setCacheManager(new EhCacheManager());
-        customerRealm.setCachingEnabled(true);//全局缓存
-        customerRealm.setAuthenticationCachingEnabled(true);//认证缓存
-        customerRealm.setAuthenticationCacheName("authenticationCache");
-        customerRealm.setAuthorizationCachingEnabled(true);//开授权缓存
-        customerRealm.setAuthorizationCacheName("authorizationCache");
+//        customerRealm.setCacheManager(new EhCacheManager());
+//        customerRealm.setCachingEnabled(true);//全局缓存
+//        customerRealm.setAuthenticationCachingEnabled(true);//认证缓存
+//        customerRealm.setAuthenticationCacheName("authenticationCache");
+//        customerRealm.setAuthorizationCachingEnabled(true);//开授权缓存
+//        customerRealm.setAuthorizationCacheName("authorizationCache");
 
         return customerRealm;
     }
