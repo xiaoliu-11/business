@@ -40,7 +40,6 @@ public class CustomerRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //获得身份信息
         String primaryPrincipal = (String) principals.getPrimaryPrincipal();
-
         //根据身份信息获得角色和认证信息
       /*  if ("lsglsg".equals(primaryPrincipal)) {
             SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();

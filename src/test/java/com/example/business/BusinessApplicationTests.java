@@ -16,8 +16,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @SpringBootTest
 class BusinessApplicationTests {
@@ -131,5 +133,17 @@ class BusinessApplicationTests {
     @Test
     public void testRedis() {
         redisUtil.setValue("ss1","hahahah");
+    }
+
+
+
+
+
+
+   //降序输出订单号
+    @Test
+    public void testOrderByDesc() {
+
+        System.out.println(userOrderPOMapper.getOrderByDesc().get(0).getOrderId().substring(10));
     }
 }

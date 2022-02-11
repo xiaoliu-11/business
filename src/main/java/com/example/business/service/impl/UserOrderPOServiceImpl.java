@@ -6,6 +6,7 @@ import com.example.business.entity.UserOrderPO;
 import com.example.business.mapper.UserOrderPOMapper;
 import com.example.business.service.UserOrderPOService;
 import com.example.business.utils.BeanCopyUtils;
+import com.example.business.utils.OrderUtils;
 import com.example.business.vo.order.UserOrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class UserOrderPOServiceImpl extends ServiceImpl<UserOrderPOMapper, UserO
     @Autowired
     private UserOrderPOMapper userOrderPOMapper;
 
+    @Autowired
+    private OrderUtils orderUtils;
+
 
     //保存或者修改订单
     @Transactional(rollbackFor = Exception.class)
@@ -30,6 +34,10 @@ public class UserOrderPOServiceImpl extends ServiceImpl<UserOrderPOMapper, UserO
     public boolean saveOrUpdateOrder(UserOrderVO userOrderVO) {
         // 保存或修改订单
         UserOrderPO userOrderPO = BeanCopyUtils.copyObject(userOrderVO, UserOrderPO.class);
+
+        List<UserOrderPO> orderByDesc = userOrderPOMapper.getOrderByDesc();
+        String sortOrderNumber = orderUtils.getSortOrderNumber(orderByDesc);
+        userOrderPO.setOrderId(sortOrderNumber);
         return userOrderPOService.saveOrUpdate(userOrderPO);
     }
 
