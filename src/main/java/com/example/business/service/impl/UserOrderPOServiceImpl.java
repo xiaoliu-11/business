@@ -9,6 +9,7 @@ import com.example.business.utils.BeanCopyUtils;
 import com.example.business.utils.OrderUtils;
 import com.example.business.vo.order.UserOrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,8 @@ public class UserOrderPOServiceImpl extends ServiceImpl<UserOrderPOMapper, UserO
     @Autowired
     private OrderUtils orderUtils;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     //保存或者修改订单
     @Transactional(rollbackFor = Exception.class)
@@ -35,9 +38,12 @@ public class UserOrderPOServiceImpl extends ServiceImpl<UserOrderPOMapper, UserO
         // 保存或修改订单
         UserOrderPO userOrderPO = BeanCopyUtils.copyObject(userOrderVO, UserOrderPO.class);
 
-        List<UserOrderPO> orderByDesc = userOrderPOMapper.getOrderByDesc();
+        //下面三行根据降序生成递增序列
+     /*   List<UserOrderPO> orderByDesc = userOrderPOMapper.getOrderByDesc();
         String sortOrderNumber = orderUtils.getSortOrderNumber(orderByDesc);
-        userOrderPO.setOrderId(sortOrderNumber);
+        userOrderPO.setOrderId(sortOrderNumber);*/
+
+        userOrderPO.setOrderId(orderUtils.createAutoIDByRedis(stringRedisTemplate));
         return userOrderPOService.saveOrUpdate(userOrderPO);
     }
 

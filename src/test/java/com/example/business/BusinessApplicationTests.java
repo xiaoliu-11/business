@@ -9,17 +9,21 @@ import com.example.business.service.UserInfoService;
 import com.example.business.utils.OrderUtils;
 import com.example.business.utils.RedisUtil;
 import com.example.business.vo.user.UserRoleVO;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 class BusinessApplicationTests {
@@ -31,6 +35,9 @@ class BusinessApplicationTests {
 
     @Resource
     private RedisUtil redisUtil;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     private UserInfoService userInfoService;
@@ -132,18 +139,41 @@ class BusinessApplicationTests {
 
     @Test
     public void testRedis() {
-        redisUtil.setValue("ss1","hahahah");
+        redisUtil.setValue("ss1", "hahahah");
     }
 
 
-
-
-
-
-   //降序输出订单号
+    //降序输出订单号
     @Test
     public void testOrderByDesc() {
 
         System.out.println(userOrderPOMapper.getOrderByDesc().get(0).getOrderId().substring(10));
     }
+
+
+    //redis自增输出订单号
+    @Test
+    public void testRedisId() {
+        System.out.println(createAutoIDByRedis());
+    }
+
+
+    public String createAutoIDByRedis( ) {
+        //时间戳 后面拼接流水号
+        String datetime = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        //这里是 Redis key的前缀，如: sys:表名:日期  如果不需要去掉表名也可以
+        String key = MessageFormat.format("{0}:{1}",  "user_order",datetime);
+        //查询 key 是否存在， 不存在返回 1 ，存在的话则自增加1
+        Long autoID = stringRedisTemplate.opsForValue().increment(key, 1);
+        // 设置key过期时间, 保证每天的流水号从1开始
+        if(autoID==1){
+            stringRedisTemplate.expire(key, 86400, TimeUnit.SECONDS);
+        }
+        //这里是 6 位id，如果位数不够可以自行修改 ，下面的意思是 得到上面 key 的 值，位数为6 ，不够的话在左边补 0 ，比如  110 会变成  000110
+        String value = StringUtils.leftPad(String.valueOf(autoID), 6, "0");
+        //然后把 时间戳和优化后的 ID 拼接
+        String code = MessageFormat.format("{0}{1}{2}", "DD", datetime,value);
+        return code;
+    }
+
 }
