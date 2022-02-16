@@ -3,6 +3,7 @@ package com.example.business.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class UserInfoPO implements Serializable {
     //id作为唯一主键
+    @ApiModelProperty("id")
     private int id;
 
     private String username;

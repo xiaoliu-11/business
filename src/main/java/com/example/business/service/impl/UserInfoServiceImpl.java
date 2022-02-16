@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.business.entity.PermissionPO;
 import com.example.business.entity.UserInfoPO;
 import com.example.business.mapper.UserInfoMapper;
+import com.example.business.mapper.UserRolePOMapper;
 import com.example.business.service.UserInfoService;
 import com.example.business.utils.RedisUtil;
 import com.example.business.utils.SaltUtils;
@@ -22,8 +23,12 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoPO>
     @Autowired
     private UserInfoMapper userInfoMapper;
 
+    @Autowired
+    private UserRolePOMapper userRolePOMapper;
+
     @Resource
     private RedisUtil redisUtil;
+
 
     //用户注册
     @Override
@@ -35,6 +40,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoPO>
         userInfoPO.setSalt(salt);
         Md5Hash md5Hash = new Md5Hash(userInfoPO.getPassword(), salt, 1024);
         userInfoPO.setPassword(md5Hash.toHex());
+
         userInfoMapper.insert(userInfoPO);
     }
 
@@ -45,10 +51,11 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoPO>
     public UserInfoPO findByUserName(String username) {
         QueryWrapper<UserInfoPO> wrapper = new QueryWrapper<>();
         wrapper.eq("username", username);
-        //将用户数据存入redis
-        redisUtil.setValue(username,wrapper);
-        System.out.println("日志打印：数据成功存入redis!");
-        return userInfoMapper.selectOne(wrapper);
+            //将用户数据存入redis
+            redisUtil.setValue(username,wrapper);
+            System.out.println("日志打印：数据成功存入redis!");
+            return userInfoMapper.selectOne(wrapper);
+
     }
 
 

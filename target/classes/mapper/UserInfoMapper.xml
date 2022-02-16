@@ -49,7 +49,7 @@
         </collection>
     </resultMap>
 
-    <select id="selectUserById" parameterType="Integer" resultMap="userinfoMapOne">
+    <select id="selectUserById"  resultMap="userinfoMapOne">
        SELECT
       u.id uid, u.username,u.password,u.salt,u.gmt_create,u.gmt_update,  r.id,r.role,r.description
     FROM
@@ -90,7 +90,7 @@
     
     <select id="findPermissionByRoleId"  resultType="com.example.business.entity.PermissionPO">
        SELECT
-         p.id,p.permission,r.role
+         p.id,p.permission,p.description,r.role
        FROM
          user_role r
        LEFT JOIN
@@ -106,9 +106,5 @@
 
 
     </select>
-
-
-
-    
 
 </mapper>

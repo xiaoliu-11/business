@@ -70,7 +70,7 @@ public class OrderUtils {
     }
 
 
-    public String createAutoIDByRedis(StringRedisTemplate stringRedisTemplate ) {
+    public String createAutoIDByRedis(StringRedisTemplate stringRedisTemplate) {
         //时间戳 后面拼接流水号
         String datetime = new SimpleDateFormat("yyyyMMdd").format(new Date());
         //这里是 Redis key的前缀，如: sys:表名:日期  如果不需要去掉表名也可以
@@ -87,6 +87,8 @@ public class OrderUtils {
         String code = MessageFormat.format("{0}{1}{2}", "DD", datetime,value);
         return code;
     }
+
+
 
 
 }
