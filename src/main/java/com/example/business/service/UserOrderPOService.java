@@ -21,5 +21,17 @@ public interface UserOrderPOService extends IService<UserOrderPO> {
 
     List<UserOrderPO> getUserOrderPage(int current, int size);
 
+    ////根据用户名查询该用户所有订单
+    List<UserOrderPO> listUserOrderByUsername(String username);
+
+    //根据用户名查询该用户所有订单+分页
+    List<UserOrderPO> listUserOrderByUsernamePage(String username,int current,int size);
+
+    //根据供应商查询该用户所有订单
+    List<UserOrderPO> listUserOrderBySupplier(String supplier);
+
+
+    //根据供应商查询该用户所有订单+分页
+    List<UserOrderPO> listUserOrderBySupplierPage(String supplier,int current,int size);
 
 }

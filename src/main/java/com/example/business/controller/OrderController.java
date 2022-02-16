@@ -63,6 +63,41 @@ public class OrderController {
 
     }
 
+    @ApiOperation(value = "根据【用户名】查询订单列表")
+    @PostMapping("/listusername/{username}")
+    public ServerResponseVO<UserOrderPO> listUserOrderByUsername(String username){
+        return ServerResponseVO.success(userOrderPOService.listUserOrderByUsername(username));
+
+    }
+
+    @ApiOperation(value = "根据【用户名】查询订单列表加分页")
+    @PostMapping("/listusernamepage/{username}/{current}/{size}")
+    public ServerResponseVO<UserOrderPO> listUserOrderByUsernamePage(@PathVariable("username") String username,
+                                                                     @PathVariable("current") int current,
+                                                                     @PathVariable("size") int size) {
+        return ServerResponseVO.success(userOrderPOService.listUserOrderByUsernamePage(username,current,size));
+
+    }
+
+
+
+    @ApiOperation(value = "根据【供应商】查询订单列表")
+    @PostMapping("/listsupplier/{supplier}")
+    public ServerResponseVO<UserOrderPO> listUserOrderBySupplier(String supplier){
+        return ServerResponseVO.success(userOrderPOService.listUserOrderBySupplier(supplier));
+
+    }
+
+    @ApiOperation(value = "根据【供应商】查询订单列表加分页")
+    @PostMapping("/listpagesupplier/{supplier}/{current}/{size}")
+    public ServerResponseVO<UserOrderPO> listUserOrderBySuppplierPage(@PathVariable("supplier") String supplier,
+                                                                     @PathVariable("current") int current,
+                                                                     @PathVariable("size") int size) {
+        return ServerResponseVO.success(userOrderPOService.listUserOrderBySupplierPage(supplier,current,size));
+
+    }
+
+
 
 
 }

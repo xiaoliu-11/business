@@ -1,7 +1,9 @@
 package com.example.business.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.business.entity.UserInfoPO;
 import com.example.business.entity.UserOrderPO;
 import com.example.business.mapper.UserOrderPOMapper;
 import com.example.business.service.UserOrderPOService;
@@ -57,6 +59,46 @@ public class UserOrderPOServiceImpl extends ServiceImpl<UserOrderPOMapper, UserO
         //调用mp的分页查询方法
         //把分页数据封装到page对象里面。
         userOrderPOMapper.selectPage(page,null);
+        return page.getRecords();
+    }
+
+
+
+    //根据用户名查询该用户所有订单
+    @Override
+    public List<UserOrderPO> listUserOrderByUsername(String username) {
+        QueryWrapper<UserOrderPO> wrapper = new QueryWrapper<>();
+        wrapper.eq("con_username", username);
+        return userOrderPOMapper.selectList(wrapper);
+    }
+
+    //根据用户名查询该用户所有订单+分页
+    @Override
+    public List<UserOrderPO> listUserOrderByUsernamePage(String username, int current, int size) {
+        QueryWrapper<UserOrderPO> wrapper = new QueryWrapper<>();
+        Page<UserOrderPO> page = new Page<>(current,size);
+        wrapper.eq("con_username", username);
+         userOrderPOMapper.selectPage(page,wrapper);
+         return page.getRecords();
+    }
+
+
+
+    //根据供应商查询该用户所有订单
+    @Override
+    public List<UserOrderPO> listUserOrderBySupplier(String supplier) {
+        QueryWrapper<UserOrderPO> wrapper = new QueryWrapper<>();
+        wrapper.eq("supplier", supplier);
+        return userOrderPOMapper.selectList(wrapper);
+    }
+
+    //根据供应商查询该用户所有订单+分页
+    @Override
+    public List<UserOrderPO> listUserOrderBySupplierPage(String supplier, int current, int size) {
+        QueryWrapper<UserOrderPO> wrapper = new QueryWrapper<>();
+        Page<UserOrderPO> page = new Page<>(current,size);
+        wrapper.eq("supplier", supplier);
+        userOrderPOMapper.selectPage(page,wrapper);
         return page.getRecords();
     }
 

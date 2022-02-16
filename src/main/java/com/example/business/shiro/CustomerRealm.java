@@ -79,11 +79,9 @@ public class CustomerRealm extends AuthorizingRealm {
         //获得service对象
         UserInfoPO userInfoPO = userInfoService.selectUserByUsername(principal);
         System.out.println("**************");
-        if(redisUtil.getValue(userInfoPO.getUsername()) == null){
-            redisUtil.setValue(userInfoPO.getUsername(),userInfoPO);
-            System.out.println("**************");
-            System.out.println("数据存入redis");
-        }
+        redisUtil.setValue(userInfoPO.getUsername(),userInfoPO);
+        System.out.println("**************");
+        System.out.println("数据存入redis");
         if (!ObjectUtils.isEmpty(userInfoPO)) {
             return new SimpleAuthenticationInfo(userInfoPO.getUsername(), userInfoPO.getPassword(), ByteSource.Util.bytes(userInfoPO.getSalt()), this.getName());
         }

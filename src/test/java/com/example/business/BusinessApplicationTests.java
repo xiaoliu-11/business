@@ -6,6 +6,7 @@ import com.example.business.entity.UserOrderPO;
 import com.example.business.mapper.UserInfoMapper;
 import com.example.business.mapper.UserOrderPOMapper;
 import com.example.business.service.UserInfoService;
+import com.example.business.service.UserOrderPOService;
 import com.example.business.utils.OrderUtils;
 import com.example.business.utils.RedisUtil;
 import com.example.business.vo.user.UserRoleVO;
@@ -32,6 +33,9 @@ class BusinessApplicationTests {
     private UserInfoMapper userInfoMapper;
     @Autowired
     private UserOrderPOMapper userOrderPOMapper;
+
+    @Autowired
+    private UserOrderPOService userOrderPOService;
 
     @Resource
     private RedisUtil redisUtil;
@@ -174,6 +178,12 @@ class BusinessApplicationTests {
         //然后把 时间戳和优化后的 ID 拼接
         String code = MessageFormat.format("{0}{1}{2}", "DD", datetime,value);
         return code;
+    }
+
+
+    @Test
+    public void testgetOrderByUsername(){
+        System.out.println(userOrderPOService.listUserOrderByUsername("货主1号"));
     }
 
 }

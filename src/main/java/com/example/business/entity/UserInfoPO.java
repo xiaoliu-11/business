@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class UserInfoPO implements Serializable {
     //id作为唯一主键
-    @ApiModelProperty("id")
+
     private int id;
 
     private String username;

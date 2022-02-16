@@ -19,7 +19,8 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.example.business.controller")) // 用于指定扫描哪个包下的接口
-                .paths(PathSelectors.any())// 选择所有的API,如果你想只为部分API生成文档，可以配置这里
+                .paths(PathSelectors.any())
+             // 选择所有的API,如果你想只为部分API生成文档，可以配置这里
                 .build();
     }
 
