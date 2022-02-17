@@ -1,11 +1,9 @@
 package com.example.business.shiro;
 
 import com.example.business.entity.PermissionPO;
-import com.example.business.entity.RolePO;
 import com.example.business.entity.UserInfoPO;
 import com.example.business.service.UserInfoService;
 import com.example.business.utils.RedisUtil;
-import com.example.business.vo.user.UserRoleVO;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

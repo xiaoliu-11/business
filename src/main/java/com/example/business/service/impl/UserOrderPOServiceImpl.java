@@ -11,6 +11,7 @@ import com.example.business.utils.BeanCopyUtils;
 import com.example.business.utils.OrderUtils;
 import com.example.business.vo.order.UserOrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import java.util.List;
 @Service
 public class UserOrderPOServiceImpl extends ServiceImpl<UserOrderPOMapper, UserOrderPO> implements UserOrderPOService {
 
+    @Lazy
     @Autowired
     private  UserOrderPOService userOrderPOService;
 
@@ -44,7 +46,6 @@ public class UserOrderPOServiceImpl extends ServiceImpl<UserOrderPOMapper, UserO
      /*   List<UserOrderPO> orderByDesc = userOrderPOMapper.getOrderByDesc();
         String sortOrderNumber = orderUtils.getSortOrderNumber(orderByDesc);
         userOrderPO.setOrderId(sortOrderNumber);*/
-
         userOrderPO.setOrderId(orderUtils.createAutoIDByRedis(stringRedisTemplate));
         return userOrderPOService.saveOrUpdate(userOrderPO);
     }

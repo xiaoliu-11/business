@@ -7,6 +7,8 @@ import com.example.business.vo.order.UserOrderVO;
 import com.example.business.vo.response.ServerResponseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,12 +83,15 @@ public class OrderController {
 
 
 
+    //属于user或者admin之一;修改logical为OR 即可
+   // @RequiresRoles(value={"carrier","admin"},logical= Logical.OR)
     @ApiOperation(value = "根据【供应商】查询订单列表")
     @PostMapping("/listsupplier/{supplier}")
     public ServerResponseVO<UserOrderPO> listUserOrderBySupplier(String supplier){
         return ServerResponseVO.success(userOrderPOService.listUserOrderBySupplier(supplier));
 
     }
+
 
     @ApiOperation(value = "根据【供应商】查询订单列表加分页")
     @PostMapping("/listpagesupplier/{supplier}/{current}/{size}")

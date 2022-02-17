@@ -6,6 +6,7 @@ import com.example.business.service.UserRoleService;
 import com.example.business.vo.response.ServerResponseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ public class UserRoleController {
 
 
 
+    @RequiresRoles("admin")
     @ApiOperation(value = "给用户动态分配角色")
     @PostMapping("/{userid}/{roleid}")
     public ServerResponseVO assignRole(@PathVariable("userid") int userid,

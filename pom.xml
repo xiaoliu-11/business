@@ -132,6 +132,12 @@
             <version>3.7</version>
         </dependency>
 
+<!--aop依赖，用来记录操作日志 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
