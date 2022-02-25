@@ -2,7 +2,6 @@ package com.example.business.utils;
 
 import com.example.business.entity.UserOrderPO;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -74,21 +73,19 @@ public class OrderUtils {
         //时间戳 后面拼接流水号
         String datetime = new SimpleDateFormat("yyyyMMdd").format(new Date());
         //这里是 Redis key的前缀，如: sys:表名:日期  如果不需要去掉表名也可以
-        String key = MessageFormat.format("{0}:{1}",  "user_order",datetime);
+        String key = MessageFormat.format("{0}:{1}", "user_order", datetime);
         //查询 key 是否存在， 不存在返回 1 ，存在的话则自增加1
         Long autoID = stringRedisTemplate.opsForValue().increment(key, 1);
         // 设置key过期时间, 保证每天的流水号从1开始
-        if(autoID==1){
+        if (autoID == 1) {
             stringRedisTemplate.expire(key, 86400, TimeUnit.SECONDS);
         }
         //这里是 6 位id，如果位数不够可以自行修改 ，下面的意思是 得到上面 key 的 值，位数为6 ，不够的话在左边补 0 ，比如  110 会变成  000110
         String value = StringUtils.leftPad(String.valueOf(autoID), 6, "0");
         //然后把 时间戳和优化后的 ID 拼接
-        String code = MessageFormat.format("{0}{1}{2}", "DD", datetime,value);
+        String code = MessageFormat.format("{0}{1}{2}", "DD", datetime, value);
         return code;
     }
-
-
 
 
 }

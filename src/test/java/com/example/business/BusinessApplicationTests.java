@@ -9,6 +9,7 @@ import com.example.business.service.UserInfoService;
 import com.example.business.service.UserOrderPOService;
 import com.example.business.utils.OrderUtils;
 import com.example.business.utils.RedisUtil;
+import com.example.business.vo.order.UserOrderVO;
 import com.example.business.vo.user.UserRoleVO;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -184,6 +185,12 @@ class BusinessApplicationTests {
     @Test
     public void testgetOrderByUsername(){
         System.out.println(userOrderPOService.listUserOrderByUsername("货主1号"));
+    }
+
+
+    @Test
+    public void testgetOrderByPage(){
+
     }
 
 }

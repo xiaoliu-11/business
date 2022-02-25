@@ -3,7 +3,6 @@ package com.example.business.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.business.entity.UserInfoPO;
 import com.example.business.entity.UserOrderPO;
 import com.example.business.mapper.UserOrderPOMapper;
 import com.example.business.service.UserOrderPOService;
@@ -24,7 +23,7 @@ public class UserOrderPOServiceImpl extends ServiceImpl<UserOrderPOMapper, UserO
 
     @Lazy
     @Autowired
-    private  UserOrderPOService userOrderPOService;
+    private UserOrderPOService userOrderPOService;
 
     @Autowired
     private UserOrderPOMapper userOrderPOMapper;
@@ -47,22 +46,20 @@ public class UserOrderPOServiceImpl extends ServiceImpl<UserOrderPOMapper, UserO
         String sortOrderNumber = orderUtils.getSortOrderNumber(orderByDesc);
         userOrderPO.setOrderId(sortOrderNumber);*/
         userOrderPO.setOrderId(orderUtils.createAutoIDByRedis(stringRedisTemplate));
+
         return userOrderPOService.saveOrUpdate(userOrderPO);
     }
 
 
     //分页查询订单
     @Override
-    public List<UserOrderPO> getUserOrderPage(int current, int size) {
+    public List<UserOrderPO> getUserOrderPage(long current, long size) {
         //1.创建page对象
         //传入两个参数：当前页，每页数量
-        Page<UserOrderPO> page = new Page<>(current,size);
-        //调用mp的分页查询方法
-        //把分页数据封装到page对象里面。
-        userOrderPOMapper.selectPage(page,null);
+        Page<UserOrderPO> page = new Page<>(current, size);
+        userOrderPOMapper.selectPage(page, null);
         return page.getRecords();
     }
-
 
 
     //根据用户名查询该用户所有订单
@@ -75,14 +72,13 @@ public class UserOrderPOServiceImpl extends ServiceImpl<UserOrderPOMapper, UserO
 
     //根据用户名查询该用户所有订单+分页
     @Override
-    public List<UserOrderPO> listUserOrderByUsernamePage(String username, int current, int size) {
+    public List<UserOrderPO> listUserOrderByUsernamePage(String username, long current, long size) {
         QueryWrapper<UserOrderPO> wrapper = new QueryWrapper<>();
-        Page<UserOrderPO> page = new Page<>(current,size);
+        Page<UserOrderPO> page = new Page<>(current, size);
         wrapper.eq("con_username", username);
-         userOrderPOMapper.selectPage(page,wrapper);
-         return page.getRecords();
+        userOrderPOMapper.selectPage(page, wrapper);
+        return page.getRecords();
     }
-
 
 
     //根据供应商查询该用户所有订单
@@ -95,11 +91,11 @@ public class UserOrderPOServiceImpl extends ServiceImpl<UserOrderPOMapper, UserO
 
     //根据供应商查询该用户所有订单+分页
     @Override
-    public List<UserOrderPO> listUserOrderBySupplierPage(String supplier, int current, int size) {
+    public List<UserOrderPO> listUserOrderBySupplierPage(String supplier, long current, long size) {
         QueryWrapper<UserOrderPO> wrapper = new QueryWrapper<>();
-        Page<UserOrderPO> page = new Page<>(current,size);
+        Page<UserOrderPO> page = new Page<>(current, size);
         wrapper.eq("supplier", supplier);
-        userOrderPOMapper.selectPage(page,wrapper);
+        userOrderPOMapper.selectPage(page, wrapper);
         return page.getRecords();
     }
 

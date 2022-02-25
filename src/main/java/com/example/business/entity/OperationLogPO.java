@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,24 +16,27 @@ import java.util.Date;
  * @create: 2022-02-17
  */
 @Data
-@TableName("user_operationlog")
 @AllArgsConstructor
 @NoArgsConstructor
-public class OperationLogPO {
+@TableName("user_operationlog")
+public class OperationLogPO implements Serializable {
 
     private int id;
 
-    private String operator;
+    private String operator;  //用户名
 
-    private String operateMethod;
+    private String operation; //做了什么操作
 
-    private String operateType;
 
+    private String operateMethod; //方法名
+
+    /**
+     * 参数
+     */
     private String params;
 
-    private String operateResult;
 
-    private String operateIp;
+    private String operateIp; // ip地址
 
     //创建时间
     @TableField(fill = FieldFill.INSERT) //字段自动填充
@@ -44,6 +48,11 @@ public class OperationLogPO {
 
     //逻辑删除位
     @TableLogic
-    @TableField( fill= FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDeleted;
 }
+
+
+
+
+

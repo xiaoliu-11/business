@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRolePOMapper extends BaseMapper<UserRolePO> {
     //给用户动态分配角色
-         void assignRole(int userid, int roleid);
+    void assignRole(int userid, int roleid);
 }

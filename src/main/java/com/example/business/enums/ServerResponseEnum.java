@@ -14,7 +14,7 @@ public enum ServerResponseEnum {
 
     SUCCESS(200, "成功!"),
 
-    ERROR(999,"失败"),
+    ERROR(999, "失败"),
 
     ACCOUNT_NOT_EXIST(11, "账号不存在"),
 
@@ -30,4 +30,5 @@ public enum ServerResponseEnum {
 
     Integer code;
     String message;
+
 }

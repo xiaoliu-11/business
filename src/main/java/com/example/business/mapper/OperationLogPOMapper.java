@@ -1,10 +1,10 @@
 package com.example.business.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.business.entity.PermissionPO;
+import com.example.business.entity.OperationLogPO;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface PermissionPOMapper extends BaseMapper<PermissionPO> {
 
+@Repository
+public interface OperationLogPOMapper extends BaseMapper<OperationLogPO> {
 }

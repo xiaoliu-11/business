@@ -3,6 +3,8 @@ package com.example.business.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.business.entity.PermissionPO;
 import com.example.business.entity.UserInfoPO;
+import com.example.business.vo.req.UserloginReqVO;
+import com.example.business.vo.response.ServerResponseVO;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ public interface UserInfoService extends IService<UserInfoPO> {
 
     void register(UserInfoPO userInfoPO);
 
-    UserInfoPO findByUserName(String username);
+    ServerResponseVO<UserInfoPO> userLogin(UserloginReqVO userloginReqVO);
 
 
     //根据用户名查询所有角色

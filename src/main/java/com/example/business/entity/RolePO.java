@@ -20,11 +20,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RolePO {
-      private int id;
+    private int id;
 
-      private String role;
+    private String role;
 
-      private String description;
+    private String description;
 
     //创建时间
     @TableField(fill = FieldFill.INSERT) //字段自动填充
@@ -33,7 +33,6 @@ public class RolePO {
     //修改时间
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtUpdate;
-
 
 
     //定义权限集合

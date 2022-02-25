@@ -2,9 +2,7 @@ package com.example.business.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.business.entity.PermissionPO;
-import com.example.business.entity.RolePO;
 import com.example.business.entity.UserInfoPO;
-import com.example.business.vo.user.UserRoleVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,7 +31,6 @@ public interface UserInfoMapper extends BaseMapper<UserInfoPO> {
 
     //根据角色id查询权限信息方法
     List<PermissionPO> findPermissionByRoleId(int id);
-
 
 
 }

@@ -49,24 +49,22 @@ public class CustomerRealm extends AuthorizingRealm {
 
         UserInfoPO userInfoPO = userInfoService.findRolesByUserName(primaryPrincipal);
 
-           //授权角色信息
-        if(!CollectionUtils.isEmpty(userInfoPO.getRoles())){
+        //授权角色信息
+        if (!CollectionUtils.isEmpty(userInfoPO.getRoles())) {
             SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
             userInfoPO.getRoles().forEach(rolePO -> {
                 simpleAuthorizationInfo.addRole(rolePO.getRole());
                 // 查询权限信息
                 List<PermissionPO> permissionByRoleId = userInfoService.findPermissionByRoleId(rolePO.getId());
-                if(!CollectionUtils.isEmpty(permissionByRoleId)){
-                    permissionByRoleId.forEach(perm->{
+                if (!CollectionUtils.isEmpty(permissionByRoleId)) {
+                    permissionByRoleId.forEach(perm -> {
                         simpleAuthorizationInfo.addStringPermission(perm.getPermission());
                     });
                 }
-
-
             });
-       return  simpleAuthorizationInfo;
+            return simpleAuthorizationInfo;
         }
-        return null;
+        throw new RuntimeException("用户没有该权限");
     }
 
     @Override
@@ -77,13 +75,12 @@ public class CustomerRealm extends AuthorizingRealm {
         //获得service对象
         UserInfoPO userInfoPO = userInfoService.selectUserByUsername(principal);
         System.out.println("**************");
-        redisUtil.setValue(userInfoPO.getUsername(),userInfoPO);
+        redisUtil.setValue(userInfoPO.getUsername(), userInfoPO);
         System.out.println("**************");
         System.out.println("数据存入redis");
         if (!ObjectUtils.isEmpty(userInfoPO)) {
             return new SimpleAuthenticationInfo(userInfoPO.getUsername(), userInfoPO.getPassword(), ByteSource.Util.bytes(userInfoPO.getSalt()), this.getName());
         }
-
-        return null;
+        throw new AuthenticationException("用户认证失败，仔细检查用户名或密码是否输入有误！");
     }
 }

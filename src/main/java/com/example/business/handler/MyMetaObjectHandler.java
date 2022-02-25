@@ -1,9 +1,7 @@
 package com.example.business.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.example.business.utils.OrderUtils;
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -13,18 +11,18 @@ import java.util.Date;
 public class MyMetaObjectHandler implements MetaObjectHandler {
 
 
-
     //实现自动填充字段：创建时间
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.setFieldValByName("gmtCreate",new Date(),metaObject);
-        this.setFieldValByName("gmtUpdate",new Date(),metaObject);
+        this.setFieldValByName("gmtCreate", new Date(), metaObject);
+        this.setFieldValByName("gmtUpdate", new Date(), metaObject);
 //        this.setFieldValByName("orderId", new OrderUtils().getSortOrderNumber(),metaObject);
-        this.setFieldValByName("isDeleted",0,metaObject);
+        this.setFieldValByName("isDeleted", 0, metaObject);
     }
+
     //实现自动填充字段：修改时间
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.setFieldValByName("gmtUpdate",new Date(),metaObject);
+        this.setFieldValByName("gmtUpdate", new Date(), metaObject);
     }
 }

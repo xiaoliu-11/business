@@ -1,89 +1,70 @@
 package com.example.business.controller;
 
 import com.example.business.entity.UserInfoPO;
+import com.example.business.enums.ServerResponseEnum;
 import com.example.business.service.UserInfoService;
-import com.example.business.service.UserOrderPOService;
+import com.example.business.vo.req.UserloginReqVO;
 import com.example.business.vo.response.ServerResponseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @author: 刘树国
  * @create: 2022-02-09
  */
 
-@Controller
+@RestController
 @RequestMapping("/user")
 @Api("用户登录接口的模块")
 public class LoginController {
 
 
-   @Autowired
-   private UserInfoService userInfoService;
+    @Autowired
+    private UserInfoService userInfoService;
 
 
-
-    @ApiOperation(value = "登录")
+    @ApiOperation(value = "用户登录", notes = "用户登录")
     @PostMapping("/login")
-    public String login(String username, String password) {
-        //获得主体对象
-        Subject subject = SecurityUtils.getSubject();
-        try {
-            subject.login(new UsernamePasswordToken(username, password));
-            return "redirect:/index.jsp";
-        } catch (UnknownAccountException e) {
-            e.printStackTrace();
-            System.out.println("用户名错误");
-        } catch (IncorrectCredentialsException e) {
-            e.printStackTrace();
-            System.out.println("密码错误");
-        }
-        return "redirect:/login.jsp";
+    public ServerResponseVO<UserInfoPO> login(@Validated @RequestBody UserloginReqVO userloginReqVO) {
+        return ServerResponseVO.success(userInfoService.userLogin(userloginReqVO));
     }
 
 
     //退出登录
-
-    @GetMapping("/logout")
-    public String logout() {
+    @ApiOperation(value = "用户退出登录", notes = "用户退出登录")
+    @PostMapping("/logout")
+    public ServerResponseVO logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        return "redirect:/login.jsp";
-    }
-
-
-
-    //用户注册
-    @RequestMapping("/register")
-   public String register(UserInfoPO userInfoPO){
-       try {
-           userInfoService.register(userInfoPO);
-           return  "redirect:/login.jsp";
-       } catch (Exception e) {
-           e.printStackTrace();
-           return  "redirect:/register.jsp";
-       }
-   }
-
-
-   //用户认证登录
-    public ServerResponseVO<UserInfoPO> findByUserName(){
         return ServerResponseVO.success();
     }
 
-    //
-    //@RequiresRoles("")//用来判断角色
+
+    //用户注册
+    @PostMapping("/register")
+    public ServerResponseVO<?> register(@RequestBody UserInfoPO userInfoPO) {
+        userInfoService.register(userInfoPO);
+        return ServerResponseVO.success("用户注册成功");
+    }
 
 
+    //用户没认证
+    @PostMapping("/noauth")
+    public ServerResponseVO<?> noAuth() {
+        return ServerResponseVO.error(ServerResponseEnum.NOT_LOGIN_IN);
+    }
 }
+
+
+

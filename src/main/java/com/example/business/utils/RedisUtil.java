@@ -28,12 +28,12 @@ public class RedisUtil {
     }
 
     // 存入数据到缓存并设置过期时间（单位为秒）
-    public void setValueAndExpire(String key, Object value, long time){
-        redisTemplate.opsForValue().set(key, value,time, TimeUnit.SECONDS);
+    public void setValueAndExpire(String key, Object value, long time) {
+        redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
     }
 
     // 删除缓存
-    public void delete(String key){
+    public void delete(String key) {
         redisTemplate.delete(key);
     }
 
