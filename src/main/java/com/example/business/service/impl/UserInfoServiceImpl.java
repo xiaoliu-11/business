@@ -72,7 +72,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoPO>
         }catch (AuthenticationException e){
             return  ServerResponseVO.error(ServerResponseEnum.ERROR);
         }
-        return ServerResponseVO.success("用户认证成功");
+        return ServerResponseVO.success(SecurityUtils.getSubject().getPrincipals().oneByType(UserInfoPO.class));
     }
 
     //根据用户名查询角色

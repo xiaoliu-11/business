@@ -26,7 +26,11 @@ public enum ServerResponseEnum {
 
     NOT_LOGIN_IN(15, "账号未登录"),
 
+    PASSWORDVALIDE(17,"密码不能少于6位"),
+
     UNAUTHORIZED(16, "没有权限");
+
+
 
     Integer code;
     String message;

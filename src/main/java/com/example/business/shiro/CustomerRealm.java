@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,7 +80,13 @@ public class CustomerRealm extends AuthorizingRealm {
         System.out.println("**************");
         System.out.println("数据存入redis");
         if (!ObjectUtils.isEmpty(userInfoPO)) {
-            return new SimpleAuthenticationInfo(userInfoPO.getUsername(), userInfoPO.getPassword(), ByteSource.Util.bytes(userInfoPO.getSalt()), this.getName());
+            // 存入用户信息
+            List<Object> principals = new ArrayList<>();
+            principals.add(userInfoPO.getUsername());
+            principals.add(userInfoPO);
+
+
+            return new SimpleAuthenticationInfo(principals, userInfoPO.getPassword(), ByteSource.Util.bytes(userInfoPO.getSalt()), this.getName());
         }
         throw new AuthenticationException("用户认证失败，仔细检查用户名或密码是否输入有误！");
     }
